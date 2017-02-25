@@ -24,6 +24,12 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    //Soporte para componentes de la API 25
     compile 'com.android.support:appcompat-v7:25.2.0'
+    //ButterKnife para binding de los elemento del Layout
+    compile 'com.jakewharton:butterknife:8.5.1'
     testCompile 'junit:junit:4.12'
 }
+
+//PlayServices Firebase
+apply plugin: 'com.google.gms.google-services'

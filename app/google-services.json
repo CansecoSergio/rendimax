@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "808446055435",
+    "firebase_url": "https://rendimax-89da2.firebaseio.com",
+    "project_id": "rendimax-89da2",
+    "storage_bucket": "rendimax-89da2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:808446055435:android:4b227be9be2999b6",
+        "android_client_info": {
+          "package_name": "sergio.upiicsa.rendimax"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "808446055435-us283t322mhdd2kadj7l4mt0fgchs0q3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "sergio.upiicsa.rendimax",
+            "certificate_hash": "62864e09e42496d63cdcd823020bfd3a05914d2a"
+          }
+        },
+        {
+          "client_id": "808446055435-78jk0d78g396l11p779bhjhpe5mofl6r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAbvcGxgCfyBX4JiMrOlAOTDJbqQ01G6R4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "808446055435-78jk0d78g396l11p779bhjhpe5mofl6r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
