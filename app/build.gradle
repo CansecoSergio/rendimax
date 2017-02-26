@@ -24,12 +24,22 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
     //Soporte para componentes de la API 25
     compile 'com.android.support:appcompat-v7:25.2.0'
     //ButterKnife para binding de los elemento del Layout
     compile 'com.jakewharton:butterknife:8.5.1'
+    //Para el uso de Firebase Analytics
+    compile 'com.google.firebase:firebase-core:10.2.0'
+    //Para el uso de la base de datos en tiempo real de Firebase
+    compile 'com.google.firebase:firebase-database:10.2.0'
+    //Para el uso de autenticación con Firebase
+    compile 'com.google.firebase:firebase-auth:10.2.0'
+    //Compile necesario para la autenticación con Google
+    compile 'com.google.android.gms:play-services-auth:10.2.0'
+
     testCompile 'junit:junit:4.12'
 }
 
-//PlayServices Firebase
+//PlayServices para Firebase
 apply plugin: 'com.google.gms.google-services'

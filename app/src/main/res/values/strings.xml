@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Rendimax</string>
+    <string name="error_conexion_google">No ha sido posible establecer la conexión con los servicios
+        de Google.</string>
+    <string name="error_conexion_internet">No hay conexión a la red</string>
+    <string name="no_logeo">No fue posible Iniciar la sesión</string>
 </resources>
