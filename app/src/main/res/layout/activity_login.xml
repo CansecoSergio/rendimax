@@ -46,4 +46,14 @@
             />
 
     </LinearLayout>
+    
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/acerca_rendimax"
+        android:textColor="@color/text_default_material_dark_primary"
+        android:id="@+id/acerca_de_rendimax"
+        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        />
 </RelativeLayout>

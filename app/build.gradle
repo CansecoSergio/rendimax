@@ -26,18 +26,31 @@ dependencies {
     })
 
     //Soporte para componentes de la API 25
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    //ButterKnife para binding de los elemento del Layout
-    compile 'com.jakewharton:butterknife:8.5.1'
-    //Para el uso de Firebase Analytics
-    compile 'com.google.firebase:firebase-core:10.2.0'
-    //Para el uso de la base de datos en tiempo real de Firebase
-    compile 'com.google.firebase:firebase-database:10.2.0'
-    //Para el uso de autenticación con Firebase
-    compile 'com.google.firebase:firebase-auth:10.2.0'
-    //Compile necesario para la autenticación con Google
-    compile 'com.google.android.gms:play-services-auth:10.2.0'
+    //Soporte de compatibilidad design
 
+    //ButterKnife para binding de los elemento del Layout
+    //apt 'com.jakewharton:butterknife-compiler:8.5.1'
+
+    //Para el uso de Firebase Analytics
+
+    //Para el uso de la base de datos en tiempo real de Firebase
+
+    //Para el uso de autenticación con Firebase
+
+    //Compile necesario para la autenticación con Google
+
+    //Descarga de imagenes de internet con Glide
+
+    //compile 'com.android.support:support-v4:25.2.0'
+    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:design:25.2.0'
+    compile 'com.jakewharton:butterknife:8.5.1'
+    compile 'com.google.firebase:firebase-core:10.2.0'
+    compile 'com.google.firebase:firebase-database:10.2.0'
+    compile 'com.google.firebase:firebase-auth:10.2.0'
+    compile 'com.google.android.gms:play-services-auth:10.2.0'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.android.support:support-v4:25.2.0'
     testCompile 'junit:junit:4.12'
 }
 

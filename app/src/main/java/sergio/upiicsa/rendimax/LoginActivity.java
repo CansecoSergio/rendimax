@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -16,9 +17,11 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
+    Button acercaRendimaxButton;
     SignInButton mSignInButton;
     private GoogleApiClient mGoogleApiClient;
     private static final int SIGN_IN_CODE = 999;
@@ -28,9 +31,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
 
         mSignInButton = (SignInButton) findViewById(R.id.googleSignInButton);
         mSignInButton.setSize(SignInButton.SIZE_WIDE);
+
+        acercaRendimaxButton = (Button) findViewById(R.id.acerca_de_rendimax);
 
         GoogleSignInOptions googleSignInOptions =
                 new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -47,6 +53,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             public void onClick(View view) {
                 Intent intent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
                 startActivityForResult(intent, SIGN_IN_CODE);
+            }
+        });
+
+        acercaRendimaxButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast toast = Toast.makeText(LoginActivity.this, "Acerca de Nosotros",
+                        Toast.LENGTH_LONG);
+                toast.show();
             }
         });
     }
