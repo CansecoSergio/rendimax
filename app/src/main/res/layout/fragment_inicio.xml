@@ -2,12 +2,90 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="sergio.upiicsa.rendimax.InicioFragment">
+             tools:context="sergio.upiicsa.rendimax.fragments.InicioFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Inicio"/>
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="16dp"
+        >
+
+        <LinearLayout
+            android:id="@+id/layout_inicio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:text="@string/bienvenida"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/text_default_material_light_primary"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/nombre_usuario_inicio"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorAccent"
+                    />
+            </LinearLayout>
+
+            <View style="@style/Divider"/>
+
+            <TextView
+                android:text="@string/descripcion_inicio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                android:textAlignment="textStart"
+                android:textSize="16sp"
+                android:textColor="@color/text_default_material_light_primary"
+                />
+
+            <ListView
+                android:id="@+id/list_view_opciones"
+                android:layout_width="match_parent"
+                android:paddingTop="10dp"
+                android:layout_height="330dp"/>
+
+            <TextView
+                android:text="@string/sitios_interes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity=""
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textSize="16sp"
+                android:textColor="@color/text_default_material_light_primary"
+                />
+
+            <ListView
+                android:id="@+id/list_view_sitios"
+                android:layout_width="match_parent"
+                android:paddingTop="10dp"
+                android:layout_height="150dp"/>
+        </LinearLayout>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/progressBarInicio"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
 
 </FrameLayout>

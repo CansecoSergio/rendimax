@@ -6,30 +6,85 @@
     android:id="@+id/activity_principal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/back_gradient"
     tools:context="sergio.upiicsa.rendimax.PrincipalActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_principal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:weightSum="10"
+            >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/titulo_toolbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:text="Título"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:layout_height="match_parent"
+                android:paddingRight="60px"
+                android:gravity="right"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/boton_recargar_principal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:src="@drawable/ic_reload"
+                    android:background="@android:color/transparent"
+                    android:visibility="gone"
+                    />
+
+                <ImageButton
+                    android:id="@+id/boton_agregar_proyeccion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:src="@drawable/ic_add_white_24dp"
+                    android:background="@android:color/transparent"
+                    android:visibility="gone"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.Toolbar>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="58dp">
-
-    <!--<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginTop="16dp"
-        android:paddingBottom="35dp"
-        android:orientation="vertical"
-        >-->
+        android:paddingTop="56dp"
+        android:paddingBottom="56dp">
 
         <FrameLayout
             android:id="@+id/contenidoFragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
         />
-    <!--</LinearLayout>-->
 
     </ScrollView>
 
@@ -37,11 +92,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:background="@android:color/white"
         >
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="4dp"
+            android:layout_height="2dp"
             android:layout_gravity="top"
             android:background="@drawable/shadow" />
 

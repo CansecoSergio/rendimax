@@ -2,12 +2,16 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="sergio.upiicsa.rendimax.TipsFragment">
+             tools:context="sergio.upiicsa.rendimax.fragments.TipsFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Tips"/>
-
+        >
+        <ListView
+            android:id="@+id/list_view_tips"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"/>
+    </RelativeLayout>
 </FrameLayout>

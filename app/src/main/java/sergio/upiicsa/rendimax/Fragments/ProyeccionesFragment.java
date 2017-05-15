@@ -1,4 +1,4 @@
-package sergio.upiicsa.rendimax;
+package sergio.upiicsa.rendimax.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -8,16 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import sergio.upiicsa.rendimax.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link TipsFragment.OnFragmentInteractionListener} interface
+ * {@link ProyeccionesFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link TipsFragment#newInstance} factory method to
+ * Use the {@link ProyeccionesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TipsFragment extends Fragment {
+public class ProyeccionesFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -29,7 +31,7 @@ public class TipsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public TipsFragment() {
+    public ProyeccionesFragment() {
         // Required empty public constructor
     }
 
@@ -39,11 +41,11 @@ public class TipsFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment TipsFragment.
+     * @return A new instance of fragment ProyeccionesFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TipsFragment newInstance(String param1, String param2) {
-        TipsFragment fragment = new TipsFragment();
+    public static ProyeccionesFragment newInstance(String param1, String param2) {
+        ProyeccionesFragment fragment = new ProyeccionesFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -64,7 +66,7 @@ public class TipsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_tips, container, false);
+        return inflater.inflate(R.layout.fragment_proyecciones, container, false);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

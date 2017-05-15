@@ -18,4 +18,27 @@
     <string name="revocar_usuario">Revocar Cuenta</string>
     <string name="error_cerrar_sesion">Error al cerrar la sesión</string>
     <string name="error_revocar_sesion">No ha sido posible revocar el acceso</string>
+    <string name="no_mail_disponible">Email no disponible</string>
+    <string name="nombre_usuario_no_disponible">Usuario no disponible</string>
+    <string name="boton_aceptar">Aceptar</string>
+    <string name="no_autentico_firebase">No fue posible autenticar con Firebase</string>
+    <string name="sesion_no_iniciada">No tienes sesión abierta</string>
+    <string name="descripcion_inicio">
+                Las opciones disponibles dentro de la aplicación son las siguientes:</string>
+    <string name="bienvenida">Bienvenido(a)</string>
+    <string name="sin_texto">-</string>
+    <string name="sitios_interes">Sitios que quizá te pueda interesar:</string>
+    <string name="ulr_no_disponible">URL no disponible</string>
+    <string name="recomendaciones_no_disponibles">No ha sido posible cargar los sitios recomendados</string>
+    <string name="grafica_no_disponible">Gráfica no disponible</string>
+    <string name="descripcion_grafica">Comparación de rendimiento e interés de cada banco</string>
+    <string name="banco_mayor_rendimiento">Tasa de mayor rendimiento:</string>
+    <string name="banco_mayor_interes">Tasa de mayor interés:</string>
+    <string name="error_estadisticas">No ha sido posible cargar la información de estadísiticas</string>
+    <string name="error_llenar_grafica">No ha sido posible obtener los datos de la gráfica</string>
+    <string name="mas_info_bancos">Para más información puedes consultar:</string>
+    <string name="nombre_banco_mayor_interes">Banco:</string>
+    <string name="nombre_banco">Banco:</string>
+    <string name="descripcion_no_disponible">La descripción de este menú no está disponible</string>
+    <string name="aviso_redes">Síguenos en nuestras redes sociales</string>
 </resources>

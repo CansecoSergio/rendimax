@@ -2,12 +2,38 @@
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             tools:context="sergio.upiicsa.rendimax.ProyeccionesFragment">
+             tools:context="sergio.upiicsa.rendimax.fragments.ProyeccionesFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Proyecciones"/>
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginTop="16dp"
+        >
+        <LinearLayout
+            android:id="@+id/layout_proyecciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="Sin proyecciones"/>
+
+        </LinearLayout>
+
+        <!--<android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_proyecciones"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_add_white_24dp" />-->
+
+    </RelativeLayout>
 
 </FrameLayout>

@@ -1,18 +1,21 @@
-package sergio.upiicsa.rendimax;
+package sergio.upiicsa.rendimax.fragments;
 
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,11 +25,16 @@ import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import sergio.upiicsa.rendimax.LoadActivity;
+import sergio.upiicsa.rendimax.LoginActivity;
+import sergio.upiicsa.rendimax.R;
 
 
 /**
@@ -56,7 +64,13 @@ public class PerfilFragment extends Fragment implements View.OnClickListener{
     private TextView correo;
     private TextView usuario;
     private ImageView foto;
+    private LinearLayout layoutPerfil;
+    private ProgressBar mProgressBar;
 
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
+
+    private static final String TAGPERFIL = "TAG-PERFIL";
     private OnFragmentInteractionListener mListener;
 
     public PerfilFragment() {
@@ -96,10 +110,15 @@ public class PerfilFragment extends Fragment implements View.OnClickListener{
         // Inflate the layout for this fragment
         perfilFragment = inflater.inflate(R.layout.fragment_perfil, container, false);
         cerrarSesion = (Button) perfilFragment.findViewById(R.id.cerrar_sesion_button);
-        revocarUsuario = (Button) perfilFragment.findViewById(R.id.revocar_usuario_button);
+        layoutPerfil = (LinearLayout) perfilFragment.findViewById(R.id.linear_layout_perfil);
+        //revocarUsuario = (Button) perfilFragment.findViewById(R.id.revocar_usuario_button);
         correo = (TextView) perfilFragment.findViewById(R.id.correo_usuario);
         usuario = (TextView) perfilFragment.findViewById(R.id.nombre_usuario);
         foto = (ImageView) perfilFragment.findViewById(R.id.foto_image_view);
+        mProgressBar = (ProgressBar) perfilFragment.findViewById(R.id.progressBarPerfil);
+
+        layoutPerfil.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
 
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -110,29 +129,35 @@ public class PerfilFragment extends Fragment implements View.OnClickListener{
                 .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
                 .build();
 
-        OptionalPendingResult<GoogleSignInResult> optionalPendingResult = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-        if (optionalPendingResult.isDone()) {
-            GoogleSignInResult result = optionalPendingResult.get();
-            handleSigInResult(result);
-        } else {
-            optionalPendingResult.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
-                    handleSigInResult(googleSignInResult);
+        //Obtencion de la instancia a la que está conectada la aplicacion
+        mFirebaseAuth = FirebaseAuth.getInstance();
+
+        //Oyente que se ejecutara si esta logeado
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                if (firebaseUser != null) {
+                    alimentaInformacionUsuario(firebaseUser);
+                    layoutPerfil.setVisibility(View.VISIBLE);
+                    mProgressBar.setVisibility(View.GONE);
+                } else {
+                    irActivityLogin();
                 }
-            });
-        }
+            }
+        };
 
         cerrarSesion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mFirebaseAuth.signOut();
                 Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
                     @Override
                     public void onResult(@NonNull Status status) {
                         if (status.isSuccess()) {
-                            irAlLogin();
+                            irActivityLogin();
                         } else {
-                            Toast toast = Toast.makeText(getActivity(), R.string.error_cerrar_sesion, Toast.LENGTH_LONG);
+                            Toast toast = Toast.makeText(getActivity(), R.string.error_cerrar_sesion, Toast.LENGTH_SHORT);
                             toast.setGravity(Gravity.CENTER, 0, 0);
                             toast.show();
                         }
@@ -140,26 +165,59 @@ public class PerfilFragment extends Fragment implements View.OnClickListener{
                 });
             }
         });
-
-        revocarUsuario.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(@NonNull Status status) {
-                        if (status.isSuccess()) {
-                            irAlLogin();
-                        } else {
-                            Toast toast = Toast.makeText(getActivity(), R.string.error_revocar_sesion, Toast.LENGTH_LONG);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
-                        }
-                    }
-                });
-            }
-        });
-
         return perfilFragment;
+    }
+
+    private void alimentaInformacionUsuario(FirebaseUser firebaseUser) {
+        if (firebaseUser.getDisplayName() != null) {
+            Log.d(TAGPERFIL, " " + firebaseUser.getDisplayName());
+            usuario.setText(firebaseUser.getDisplayName().toString());
+        } else {
+            usuario.setText(R.string.nombre_usuario_no_disponible);
+        }
+
+        if (firebaseUser.getEmail() != null) {
+            Log.d(TAGPERFIL, " " + firebaseUser.getEmail());
+            correo.setText(firebaseUser.getEmail().toString());
+        } else {
+            correo.setText(R.string.no_mail_disponible);
+        }
+
+        if (firebaseUser.getPhotoUrl() != null) {
+            Log.d(TAGPERFIL, " " + firebaseUser.getPhotoUrl());
+            Glide.with(getActivity())
+                    .load(firebaseUser.getPhotoUrl().toString())
+                    .crossFade()
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .thumbnail(0.5f)
+                    .into(foto);
+        } else {
+            foto.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.ic_usuario_temporal));
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mGoogleApiClient.disconnect();
+        if (mAuthStateListener != null) {
+            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
+        }
+    }
+
+    private void irActivityLogin() {
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK
+                | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -189,43 +247,6 @@ public class PerfilFragment extends Fragment implements View.OnClickListener{
     @Override
     public void onClick(View view) {
 
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        mGoogleApiClient.connect();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        mGoogleApiClient.disconnect();
-    }
-
-    private void handleSigInResult(GoogleSignInResult result) {
-        if (result.isSuccess()) {
-            GoogleSignInAccount account = result.getSignInAccount();
-            usuario.setText(account.getDisplayName().toString()!=null?account.getDisplayName().toString():"");
-            correo.setText(account.getEmail().toString()!=null?account.getEmail().toString():"");
-            Glide.with(getActivity())
-                    .load(account.getPhotoUrl().toString())
-                    .crossFade()
-                    .centerCrop()
-                    .placeholder(R.drawable.ic_usuario_temporal)
-                    .diskCacheStrategy(DiskCacheStrategy.ALL)
-                    .thumbnail(0.5f)
-                    .into(foto);
-        } else {
-            irAlLogin();
-        }
-    }
-
-    private void irAlLogin() {
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK
-                | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
     }
 
     /**

@@ -10,6 +10,8 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
@@ -19,24 +21,86 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-public class LoadActivity extends AppCompatActivity {
+public class LoadActivity extends AppCompatActivity
+        implements GoogleApiClient.OnConnectionFailedListener{
 
     //Declaracion de GoogleApiClient para hace posible las operaciones de login y log out
     private GoogleApiClient mGoogleApiClient;
+
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth.AuthStateListener mAuthStateListener;
+
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load);
 
+        progressBar = (ProgressBar) findViewById(R.id.progressBarLoad);
+        progressBar.setVisibility(View.VISIBLE);
+
+        GoogleSignInOptions googleSignInOptions =
+                new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestEmail()
+                        .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(LoadActivity.this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
+                .build();
+
+        //Obtencion de la instancia a la que está conectada la aplicacion
+        mFirebaseAuth = FirebaseAuth.getInstance();
+
+        //Oyente que se ejecutara si esta logeado
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                if (firebaseUser != null) {
+                    irActivityPrincipal();
+                } else {
+                    irActivityLogin();
+                }
+            }
+        };
+
         //Ejecución de la clase AsyncTask para la revisión si hay sesión existente o no
-        new RevisionSesion().execute();
+        //new RevisionSesion().execute();
+    }
+
+    private void irActivityLogin() {
+        Intent intent = new Intent(LoadActivity.this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK
+                | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    private void irActivityPrincipal() {
+        Intent intent = new Intent(getApplicationContext(), PrincipalActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK
+                | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        if (mAuthStateListener != null) {
+            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
+        }
     }
 
     @Override
@@ -46,7 +110,14 @@ public class LoadActivity extends AppCompatActivity {
         this.finish();
     }
 
-    private class RevisionSesion extends AsyncTask<Void, Void, Boolean> implements
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Toast toast = Toast.makeText(LoadActivity.this, R.string.error_conexion_google, Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.show();
+    }
+
+    /*private class RevisionSesion extends AsyncTask<Void, Void, Boolean> implements
         GoogleApiClient.OnConnectionFailedListener {
 
         //Uso de LoadActivity.this para referenciar objetos con el UI Thread
@@ -151,7 +222,7 @@ public class LoadActivity extends AppCompatActivity {
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         }
-    }
+    }*/
 }
 
 
