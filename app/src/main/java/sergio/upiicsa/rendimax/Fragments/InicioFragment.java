@@ -74,6 +74,8 @@ public class InicioFragment extends Fragment implements View.OnClickListener {
     private ListView listViewOpciones;
     private ListView listViewSitios;
     private ProgressBar mprogressBarInicio;
+    private TextView mTextViewOpciones;
+    private TextView mTextViewPaginas;
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
@@ -130,9 +132,13 @@ public class InicioFragment extends Fragment implements View.OnClickListener {
         listViewSitios = (ListView) inicioFragment.findViewById(R.id.list_view_sitios);
         listViewOpciones = (ListView) inicioFragment.findViewById(R.id.list_view_opciones);
         mprogressBarInicio = (ProgressBar) inicioFragment.findViewById(R.id.progressBarInicio);
+        mTextViewOpciones = (TextView) inicioFragment.findViewById(R.id.text_no_cargo_opciones);
+        mTextViewPaginas = (TextView) inicioFragment.findViewById(R.id.text_no_cargo_paginas);
 
-        mprogressBarInicio.setVisibility(View.VISIBLE);
-        layoutInicio.setVisibility(View.GONE);
+        listViewSitios.setVisibility(View.GONE);
+        listViewOpciones.setVisibility(View.GONE);
+        mTextViewPaginas.setVisibility(View.VISIBLE);
+        mTextViewOpciones.setVisibility(View.VISIBLE);
 
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -354,6 +360,9 @@ public class InicioFragment extends Fragment implements View.OnClickListener {
                 CustomOpcionesAdapter opcionesAdapter =
                         new CustomOpcionesAdapter(getActivity(), nombres, descripciones, imagenes);
                 listViewOpciones.setAdapter(opcionesAdapter);
+
+                listViewOpciones.setVisibility(View.VISIBLE);
+                mTextViewOpciones.setVisibility(View.GONE);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -369,12 +378,17 @@ public class InicioFragment extends Fragment implements View.OnClickListener {
             }
         }
 
-        try {
-            ArrayAdapter<String> arrayAdapterSitios = new ArrayAdapter<String>(getActivity(), R.layout.lista_sitios_web,
-                    R.id.nombre_item_lista_sitios_web, listaSiglasSitios);
-            listViewSitios.setAdapter(arrayAdapterSitios);
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (listaSiglasSitios != null) {
+            try {
+                ArrayAdapter<String> arrayAdapterSitios = new ArrayAdapter<String>(getActivity(), R.layout.lista_sitios_web,
+                        R.id.nombre_item_lista_sitios_web, listaSiglasSitios);
+                listViewSitios.setAdapter(arrayAdapterSitios);
+
+                listViewSitios.setVisibility(View.VISIBLE);
+                mTextViewPaginas.setVisibility(View.GONE);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -461,7 +475,5 @@ public class InicioFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onResume() {
         super.onResume();
-        mprogressBarInicio.setVisibility(View.GONE);
-        layoutInicio.setVisibility(View.VISIBLE);
     }
 }

@@ -33,14 +33,11 @@ public class PrincipalActivity extends AppCompatActivity
             ProyeccionesFragment.OnFragmentInteractionListener,
             PerfilFragment.OnFragmentInteractionListener{
 
-    private static final String TAGPRINCIPAL = "TAG-PRINCIPAL";
     private Fragment mFragment = null;
     Class fragmentClass = null;
     private Toolbar mToolbar;
     private BottomNavigationView mBottomNavigationView;
     private TextView mToolbarText;
-    private ImageButton mImageButton;
-    private ImageButton mImageButtonAdd;
 
     private static final String TAGACTINICIO = "ACTIVITY-INICIO";
 
@@ -51,56 +48,11 @@ public class PrincipalActivity extends AppCompatActivity
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar_principal);
         mToolbarText = (TextView) findViewById(R.id.titulo_toolbar);
-        mImageButton = (ImageButton) mToolbar.findViewById(R.id.boton_recargar_principal);
-        mImageButtonAdd = (ImageButton) mToolbar.findViewById(R.id.boton_agregar_proyeccion);
         mBottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigationView);
 
-        //AppCompatActivity activity = (AppCompatActivity) getActivity();
         setSupportActionBar(mToolbar);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast toast = Toast.makeText(PrincipalActivity.this,
-                        "Reload", Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-            }
-        });
-        /*setSupportActionBar(mToolbar);
-        mToolbar.setClickable(true);
-        mToolbar.findViewById(R.id.boton_agregar_proyeccion).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ProyeccionFormActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-        });*/
-
-        mImageButtonAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ProyeccionFormActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-            }
-        });
-
-        mImageButton.setVisibility(View.GONE);
-        mImageButtonAdd.setVisibility(View.GONE);
         actualizaFragment();
 
-        /*mImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast toast = Toast.makeText(PrincipalActivity.this,
-                        "Reload", Toast.LENGTH_SHORT);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-            }
-        });*/
 
         mBottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -174,7 +126,6 @@ public class PrincipalActivity extends AppCompatActivity
                                 mFragment = (Fragment) fragmentClass.newInstance();
                                 actualizaFragment();
                                 mToolbarText.setText(R.string.menu_proyecciones);
-                                mImageButtonAdd.setVisibility(View.VISIBLE);
                             } catch (Exception e) {
                                 Toast toast = Toast.makeText(PrincipalActivity.this,
                                         R.string.error_vista, Toast.LENGTH_SHORT);
@@ -212,25 +163,15 @@ public class PrincipalActivity extends AppCompatActivity
                 return false;
             }
         });
-
-        mImageButtonAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
     }
 
     private void actualizaFragment() {
-        mImageButton.setVisibility(View.GONE);
-        mImageButtonAdd.setVisibility(View.GONE);
         if (mFragment == null && fragmentClass == null){
             fragmentClass = InicioFragment.class;
             try {
                 mToolbarText.setText(R.string.menu_inicio);
                 mFragment = (Fragment) fragmentClass.newInstance();
             } catch (Exception e) {
-                mImageButton.setVisibility(View.VISIBLE);
                 e.printStackTrace();
             }
         }
@@ -242,7 +183,6 @@ public class PrincipalActivity extends AppCompatActivity
                     .commit();
         } catch (Exception e) {
             e.printStackTrace();
-            mImageButton.setVisibility(View.VISIBLE);
         }
     }
 

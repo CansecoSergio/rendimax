@@ -1,20 +1,40 @@
 package sergio.upiicsa.rendimax.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import sergio.upiicsa.rendimax.DetalleTipActivity;
+import sergio.upiicsa.rendimax.LoginActivity;
 import sergio.upiicsa.rendimax.R;
+import sergio.upiicsa.rendimax.adapters.CustomTipsAdapter;
+import sergio.upiicsa.rendimax.clases.Opciones;
+import sergio.upiicsa.rendimax.clases.Tips;
 
 
 /**
@@ -37,13 +57,17 @@ public class TipsFragment extends Fragment {
 
     private View tipsFragment;
     private ListView listViewTips;
+    private List<Tips> listaTips = new ArrayList<Tips>();
+    private ProgressBar mProgressBarTips;
+
+    private GoogleApiClient mGoogleApiClient;
 
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
 
     private FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference mDatabaseReference = mFirebaseDatabase.getReference();
-    private DatabaseReference mDatabaseReferenceOpciones = mDatabaseReference.child("tips");
+    private DatabaseReference mDatabaseReferenceTips = mDatabaseReference.child("tips");
 
     private static final String TAGINICIO = "TAG-TIPS";
 
@@ -86,28 +110,123 @@ public class TipsFragment extends Fragment {
         // Inflate the layout for this fragment
         tipsFragment = inflater.inflate(R.layout.fragment_tips, container, false);
         listViewTips = (ListView) tipsFragment.findViewById(R.id.list_view_tips);
-        /*
-        -----------Código Temporal--------------
-         */
+        mProgressBarTips = (ProgressBar) tipsFragment.findViewById(R.id.progressBarTips);
 
-        String[] arregloTemporal = {
-          "Tip 1", "Tip 2", "Tip 3", "Tip 4", "Tip 5", "Tip 6", "Tip 7"
+        listViewTips.setVisibility(View.GONE);
+        mProgressBarTips.setVisibility(View.VISIBLE);
+
+        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .requestProfile()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
+                .build();
+
+
+        //Obtencion de la instancia a la que está conectada la aplicacion
+        mFirebaseAuth = FirebaseAuth.getInstance();
+
+        //Oyente que se ejecutara si esta logeado
+        mAuthStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                if (firebaseUser == null) {
+                    irActivityLogin();
+                }
+            }
         };
 
-        try {
-            ArrayAdapter<String> arrayAdapterSitios = new ArrayAdapter<String>(getActivity(), R.layout.lista_tips,
-                    R.id.descripcion_item_lista_tips, arregloTemporal);
-            listViewTips.setAdapter(arrayAdapterSitios);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mDatabaseReferenceTips.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.e("Count tips:" ," "+ dataSnapshot.getChildrenCount());
+                for (DataSnapshot messageSnapshot: dataSnapshot.getChildren()) {
+                    /*String frase = (String) messageSnapshot.child("frase").getValue();
+                    String descripcion = (String) messageSnapshot.child("descripcion").getValue();
+                    String nombre = (String) messageSnapshot.child("nombre").getValue();*/
 
-        /*
-        ----------------------------------------
-         */
+                    Tips tip = messageSnapshot.getValue(Tips.class);
+                    listaTips.add(tip);
+                }
+                cargaTipsOpciones(listaTips);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        listViewTips.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String itemSeleccionado = listViewTips.getItemAtPosition(i).toString();
+
+                Log.e("Tip:" ," "+ itemSeleccionado);
+
+                if (itemSeleccionado != null) {
+                    Intent intent = new Intent(getActivity(), DetalleTipActivity.class);
+                    intent.putExtra("NOMBRE_TIP", itemSeleccionado);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP/* | Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            | Intent.FLAG_ACTIVITY_NEW_TASK*/);
+                    startActivity(intent);
+                }
+            }
+        });
 
         return tipsFragment;
-        //return inflater.inflate(R.layout.fragment_tips, container, false);
+    }
+
+    private void cargaTipsOpciones(List<Tips> listaTips) {
+        Integer tamanioLista = listaTips.size();
+        String[] nombres = new String[tamanioLista];
+        String[] descripciones = new String[tamanioLista];
+
+        int i = 0;
+        for (Tips tip: listaTips) {
+            nombres[i] = tip.getNombre();
+            descripciones[i] = tip.getFrase();
+
+            i++;
+        }
+
+        if (nombres != null && descripciones != null) {
+            try{
+                CustomTipsAdapter customTipsAdapter = new CustomTipsAdapter(getActivity(), nombres, descripciones);
+                listViewTips.setAdapter(customTipsAdapter);
+
+                listViewTips.setVisibility(View.VISIBLE);
+                mProgressBarTips.setVisibility(View.GONE);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mGoogleApiClient.connect();
+        mFirebaseAuth.addAuthStateListener(mAuthStateListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mGoogleApiClient.disconnect();
+        if (mAuthStateListener != null) {
+            mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
+        }
+    }
+
+    private void irActivityLogin() {
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK
+                | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

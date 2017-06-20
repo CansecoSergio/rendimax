@@ -79,6 +79,8 @@ public class EstadisticasFragment extends Fragment implements View.OnClickListen
     private ListView listBancos;
 
     private LinearLayout layoutEstadisticas;
+    private LinearLayout layoutTasaRendimiento;
+    private LinearLayout layoutTasaInteres;
     private ProgressBar mProgressBarEstadisticas;
     private View estadisticasFragment;
     private ImageView imgBancoRendimiento;
@@ -88,6 +90,9 @@ public class EstadisticasFragment extends Fragment implements View.OnClickListen
     private TextView textNombreBancoRendimiento;
     private TextView textNombreBancoInteres;
     private TextView textFechaHoraDatos;
+    private TextView mTextViewBancoRendimiento;
+    private TextView mTextViewBancoInteres;
+    private TextView mTextViewEnlacesBancos;
 
     private List<Bancos> listaInstituciones = new ArrayList<Bancos>();
 
@@ -141,6 +146,8 @@ public class EstadisticasFragment extends Fragment implements View.OnClickListen
         // Inflate the layout for this fragment
         estadisticasFragment = inflater.inflate(R.layout.fragment_estadisticas, container, false);
         layoutEstadisticas = (LinearLayout) estadisticasFragment.findViewById(R.id.layout_estadisticas);
+        layoutTasaInteres = (LinearLayout) estadisticasFragment.findViewById(R.id.layout_banco_tasa_interes);
+        layoutTasaRendimiento = (LinearLayout) estadisticasFragment.findViewById(R.id.layout_banco_tasa_rendimiento);
         mProgressBarEstadisticas = (ProgressBar) estadisticasFragment.findViewById(R.id.progressBarEstadisticas);
         mBarChart = (BarChart) estadisticasFragment.findViewById(R.id.rendimiento_grafica);
         imgBancoInteres = (ImageView) estadisticasFragment.findViewById(R.id.img_banco_mayor_interes);
@@ -150,10 +157,18 @@ public class EstadisticasFragment extends Fragment implements View.OnClickListen
         textNombreBancoInteres = (TextView) estadisticasFragment.findViewById(R.id.text_nombre_banco_tasa_interes);
         textNombreBancoRendimiento = (TextView) estadisticasFragment.findViewById(R.id.text_nombre_banco_tasa_rendimiento);
         textFechaHoraDatos = (TextView) estadisticasFragment.findViewById(R.id.fecha_hora_datos_estadisticas);
+        mTextViewBancoInteres = (TextView) estadisticasFragment.findViewById(R.id.text_no_cargo_banco_interes);
+        mTextViewBancoRendimiento = (TextView) estadisticasFragment.findViewById(R.id.text_no_cargo_banco_rendimiento);
+        mTextViewEnlacesBancos = (TextView) estadisticasFragment.findViewById(R.id.text_no_cargo_paginas_bancos);
         listBancos = (ListView) estadisticasFragment.findViewById(R.id.list_view_bancos);
 
-        mProgressBarEstadisticas.setVisibility(View.VISIBLE);
-        layoutEstadisticas.setVisibility(View.GONE);
+        layoutTasaInteres.setVisibility(View.GONE);
+        layoutTasaRendimiento.setVisibility(View.GONE);
+        listBancos.setVisibility(View.GONE);
+
+        mTextViewBancoInteres.setVisibility(View.VISIBLE);
+        mTextViewBancoRendimiento.setVisibility(View.VISIBLE);
+        mTextViewEnlacesBancos.setVisibility(View.VISIBLE);
 
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
@@ -220,9 +235,6 @@ public class EstadisticasFragment extends Fragment implements View.OnClickListen
             }
         });
 
-        mProgressBarEstadisticas.setVisibility(View.GONE);
-        layoutEstadisticas.setVisibility(View.VISIBLE);
-
         listBancos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int i, long l) {
@@ -288,8 +300,15 @@ public class EstadisticasFragment extends Fragment implements View.OnClickListen
         }
 
         if (nombreBanco != null && urlImagenBanco != null){
-            CustomBancosAdapter bancosAdapter = new CustomBancosAdapter(getActivity(), urlImagenBanco, nombreBanco);
-            listBancos.setAdapter(bancosAdapter);
+            try {
+                CustomBancosAdapter bancosAdapter = new CustomBancosAdapter(getActivity(), urlImagenBanco, nombreBanco);
+                listBancos.setAdapter(bancosAdapter);
+
+                listBancos.setVisibility(View.VISIBLE);
+                mTextViewEnlacesBancos.setVisibility(View.GONE);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -342,6 +361,11 @@ public class EstadisticasFragment extends Fragment implements View.OnClickListen
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .thumbnail(0.5f)
                     .into(imgBancoInteres);
+
+            layoutTasaRendimiento.setVisibility(View.VISIBLE);
+            layoutTasaInteres.setVisibility(View.VISIBLE);
+            mTextViewBancoRendimiento.setVisibility(View.GONE);
+            mTextViewBancoInteres.setVisibility(View.GONE);
 
         } else {
             textTasaRendimiento.setText("-");

@@ -27,18 +27,12 @@ dependencies {
 
     //Soporte para componentes de la API 25
     //Soporte de compatibilidad design
-
     //ButterKnife para binding de los elemento del Layout
     //apt 'com.jakewharton:butterknife-compiler:8.5.1'
-
     //Para el uso de Firebase Analytics
-
     //Para el uso de la base de datos en tiempo real de Firebase
-
     //Para el uso de autenticación con Firebase
-
     //Compile necesario para la autenticación con Google
-
     //Descarga de imagenes de internet con Glide
 
     compile 'com.android.support:appcompat-v7:25.2.0'
@@ -52,6 +46,7 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.android.support:support-v4:25.2.0'
     compile 'com.github.PhilJay:MPAndroidChart:v2.0.9'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta5'
     testCompile 'junit:junit:4.12'
 }
 

@@ -61,6 +61,56 @@
                 android:layout_height="330dp"/>
 
             <TextView
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:id="@+id/text_no_cargo_opciones"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/no_cargo_opciones"
+                android:visibility="gone"/>
+
+            <LinearLayout
+                android:id="@+id/linear_descripcion_opciones"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <View style="@style/Divider"/>
+
+                <TextView
+                    android:id="@+id/text_nombre_opcion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18sp"
+                    android:textColor="@color/text_default_material_light_primary"
+                    />
+
+                <TextView
+                    android:id="@+id/text_descripcion_opcion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_default_material_light_primary"
+                    />
+
+                <ImageView
+                    android:id="@+id/imagen_descripcion_opcion"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_gravity="center"
+                    />
+
+                <View style="@style/Divider"/>
+
+            </LinearLayout>
+
+            <TextView
                 android:text="@string/sitios_interes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -76,6 +126,16 @@
                 android:layout_width="match_parent"
                 android:paddingTop="10dp"
                 android:layout_height="150dp"/>
+
+            <TextView
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:id="@+id/text_no_cargo_paginas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/no_cargo_paginas"
+                android:visibility="gone"/>
         </LinearLayout>
 
         <ProgressBar

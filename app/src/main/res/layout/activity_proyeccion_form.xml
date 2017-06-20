@@ -46,27 +46,240 @@
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
 
-    <!--<ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="56dp"
-        android:paddingBottom="56dp">
-    </ScrollView>-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginTop="70dp">
+        android:layout_marginTop="58dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <LinearLayout
+                android:id="@+id/layout_frm_proyeccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="50dp"
+                android:paddingBottom="26dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="@string/datos_proyeccion"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_default_material_light_primary"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/tv_nombre_proyeccion"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_default_material_light_primary"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:orientation="horizontal">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/til_nombre_proyeccion"
+                        android:textColorHint="@color/text_default_material_light_secondary">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/hint_nombre_proyeccion"
+                            android:textColor="@color/text_default_material_light_primary"
+                            android:textColorHint="@color/text_default_material_light_secondary"
+                            android:drawableLeft="@drawable/ic_nombre_proyeccion"
+                            android:id="@+id/et_nombre_proyeccion"
+                            android:textSize="16sp"
+                            android:inputType="textPersonName" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/tv_cantidad_proyeccion"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_default_material_light_primary"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/til_cantidad_proyeccion"
+                        android:textColorHint="@color/text_default_material_light_secondary">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/hint_cantidad_proyeccion"
+                            android:textColor="@color/text_default_material_light_primary"
+                            android:textColorHint="@color/text_default_material_light_secondary"
+                            android:drawableLeft="@drawable/ic_cantidad"
+                            android:id="@+id/et_cantidad_proyeccion"
+                            android:textSize="16sp"
+                            android:inputType="numberDecimal" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/tv_cantidad_anual_proyeccion"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_default_material_light_primary"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/til_cantidad_anual_proyeccion"
+                        android:textColorHint="@color/text_default_material_light_secondary">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/hint_cantidad_proyeccion"
+                            android:textColor="@color/text_default_material_light_primary"
+                            android:textColorHint="@color/text_default_material_light_secondary"
+                            android:drawableLeft="@drawable/ic_cantidad"
+                            android:id="@+id/et_cantidad_anual_proyeccion"
+                            android:textSize="16sp"
+                            android:inputType="numberDecimal" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/tv_años_proyeccion"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_default_material_light_primary"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/til_anios_proyeccion"
+                        android:textColorHint="@color/text_default_material_light_secondary">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/hint_anios_proyeccion"
+                            android:textColor="@color/text_default_material_light_primary"
+                            android:textColorHint="@color/text_default_material_light_secondary"
+                            android:drawableLeft="@drawable/ic_anios"
+                            android:id="@+id/et_anios_proyeccion"
+                            android:textSize="16sp"
+                            android:inputType="text"
+                            android:longClickable="false"/>
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="@string/tv_banco_proyeccion"
+                    android:textSize="16sp"
+                    android:textColor="@color/text_default_material_light_primary"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/til_banco_proyeccion"
+                        android:textColorHint="@color/text_default_material_light_secondary">
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/hint_banco_proyeccion"
+                            android:textColor="@color/text_default_material_light_primary"
+                            android:textColorHint="@color/text_default_material_light_secondary"
+                            android:drawableLeft="@drawable/ic_institucion_bancaria"
+                            android:id="@+id/et_banco_proyeccion"
+                            android:textSize="16sp"
+                            android:inputType="text"
+                            android:longClickable="false"/>
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab_proyecciones"
+            android:id="@+id/fab_nueva_proyeccion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="16dp"
             android:src="@drawable/ic_done" />
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/progressBarFrmProyeccion"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 
